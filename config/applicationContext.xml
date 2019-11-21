@@ -12,7 +12,45 @@
          http://www.springframework.org/schema/tx 
          http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
          
-
+	<!-- 打开Spring的Annotation支持 -->
 	<context:annotation-config />
+	<!-- 设定Spring 去哪些包中找Annotation -->
+	<context:component-scan base-package="com.my.pro" />
 
-</beans>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- 配置连接池的初始值 -->
+		<property name="initialSize" value="1" />
+		<!-- 连接池的最大值 -->
+		<!-- <property name="maxActive" value="500"/> -->
+		<!-- 最大空闲时，当经过一个高峰之后，连接池可以将一些用不到的连接释放，一直减少到maxIdle为止 -->
+		<!-- <property name="maxIdle" value="2"/> -->
+		<!-- 当最小空闲时，当连接少于minIdle时会自动去申请一些连接 -->
+		<property name="minIdle" value="1" />
+		<property name="maxActive" value="100" />
+		<property name="maxIdle" value="20" />
+		<property name="maxWait" value="1000" />
+	</bean>
+	<!-- 导入Src目录下的jdbc.properties文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<!--创建Spring的SessionFactory工厂 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 注入数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 设置Spring取那个包中查找相应的实体类 -->
+		<property name="packagesToScan">
+			<value>com.my.pro.model</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+	</bean>
