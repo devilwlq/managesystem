@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.action.extension" value="action,do"/>
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<constant name="struts.multipart.maxSize" value="10240000"></constant>
+	<constant name="struts.custom.i18n.resources" value="Message"></constant>
+	<!-- 表示Action由Spring来进行创建，可以直接使用Spring依赖注入来注入 -->
+	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+	<!-- <constant name="struts.ui.theme" value="simple"></constant> -->
+    <package name="default" namespace="/" extends="struts-default,json-default">
+    
+    	<!-- 全局结果集就是公共的结果集，所有action只要找到相应的返回值就会来对应全局结果集 -->
+    	<global-results>
+    		<result name="error">/WEB-INF/jsp/inc/error.jsp</result>
+    		<result name="exception">/WEB-INF/jsp/inc/exception.jsp</result>
+    		<result name="login">/WEB-INF/jsp/login/mLogin.jsp</result>
+    		<result name="index">/WEB-INF/jsp/login/mIndex.jsp</result>
+    	</global-results>
+    
+    	<action name="login" class="loginAction">
+    		<result type="redirect" name="redirect">${url}</result>
+    	</action>
+    	
+    	<!-- 默认跳转首页 -->
+    	
+		<action name="shouye">
+		  <result type="redirect">/login_login.do</result>
+		</action>
+    	
+    	<action name="*_*" class="{1}Action" method="{2}">
+    		<result>/WEB-INF/jsp/{1}/{2}.jsp</result>
+    		<result type="redirect" name="redirect">${url}</result>
+    		<result type="chain" name="chain">${url}</result>
+   		    <result type="json" name="json">  
+               <param name="root">jsonMap</param>  
+           </result>  
+    	</action>
+    </package>
+</struts>
