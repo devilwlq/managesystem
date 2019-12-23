@@ -13,7 +13,6 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("textjsonAction")
 @Scope("prototype")
 public class TestJsonAction extends BaseAction{
-	
 
 	private String dd;
 	public String getDd() {
@@ -27,7 +26,7 @@ public class TestJsonAction extends BaseAction{
 	
 
 	public String testByAction() {
-		  // dataMap中的数据将会被Struts2转换成JSON字符串，所以这里要先清空其中的数据
+		  // dataMap涓殑鏁版嵁灏嗕細琚玈truts2杞崲鎴怞SON瀛楃涓诧紝鎵�浠ヨ繖閲岃鍏堟竻绌哄叾涓殑鏁版嵁
 		  jsonMap.clear();
 		  User user = new User();
 		  user.setPhone("54554");
