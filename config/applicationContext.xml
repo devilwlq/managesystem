@@ -35,7 +35,7 @@
 		<property name="maxIdle" value="20" />
 		<property name="maxWait" value="1000" />
 	</bean>
-	<!-- 导入Src目录下的jdbc.properties文件 -->
+	<!-- 导入src目录下的jdbc.properties文件 -->
 	<context:property-placeholder location="classpath:jdbc.properties" />
 	<!--创建Spring的SessionFactory工厂 -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">

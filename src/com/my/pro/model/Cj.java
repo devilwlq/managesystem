@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * 成绩
+ * 
  * 
  * @author
  *
@@ -27,7 +27,7 @@ public class Cj {
 
 	private Teacher teacher;
 
-	private Xk xk;// 学科
+	private Xk xk;// ��
 
 	private User user;
 
