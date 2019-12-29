@@ -9,22 +9,22 @@ import javax.persistence.Table;
 
 /**
  * 专业
- * 
- * @author
+ * @author 
  *
  */
 @Entity
-@Table(name = "zy")
+@Table(name="zy")
 public class Zy {
-
-	private Integer id;
-
+	
+    private Integer id;
+	
 	private String name;
-
-	private Xy xy;// 学院
-
+	
+	private Xy xy;//学院
+	
 	private Integer isDelete;
 
+	
 	@Id
 	@GeneratedValue
 	public Integer getId() {
@@ -44,7 +44,7 @@ public class Zy {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "xy_id")
+	@JoinColumn(name="xy_id")
 	public Xy getXy() {
 		return xy;
 	}

@@ -1,6 +1,6 @@
 package com.my.pro.action;
 /**
- * 鍜岀櫥闄嗘湁鍏崇殑閮藉湪杩欓噷
+ * 和登陆有关的都在这里
  */
 
 import java.io.File;
@@ -39,19 +39,16 @@ import net.sf.json.JSONObject;
 @Controller("loginAction")
 @Scope("prototype")
 public class LoginAction extends BaseAction {
-	//============渚濊禆娉ㄥ叆start================
+	//依赖注入start
 			@Autowired
-			private ManageService manageService;//绠＄悊
+			private ManageService manageService;//管理
 			@Autowired
-			private UserService userService;//鐢ㄦ埛
+			private UserService userService;//用户
 			
 			@Autowired
 			private TeacherService teacherService;
-			//===========渚濊禆娉ㄥ叆end==================
+
 			
-			//-------------------------鍗庝附鍒嗗壊绾�---------------------------------------------
-			
-			//============鑷畾涔夊弬鏁皊tart=============
          private String newPass;
 			
 			public String getNewPass() {
@@ -95,12 +92,12 @@ public class LoginAction extends BaseAction {
 			
 			
 			
-			private String userName;//鐢ㄦ埛鍚�
-			private String passWord;//瀵嗙爜
+			private String userName;//用户名
+			private String passWord;//密码
 			private String realName;
-			//============鑷畾涔夊弬鏁癳nd=============
+			//============自定义参数end=============
 			
-			//-------------------------鍗庝附鍒嗗壊绾�---------------------------------------------
+			//-------------------------华丽分割线---------------------------------------------
 			
 			public String getRealName() {
 				return realName;
@@ -121,11 +118,11 @@ public class LoginAction extends BaseAction {
 				this.passWord = passWord;
 			}
 
-			//============鏂囦欢涓婁紶start=============
+			//============文件上传start=============
 			private File file;
-			//鎻愪氦杩囨潵鐨刦ile鐨勫悕瀛�
+			//提交过来的file的名字
 		    private String fileFileName;
-		    //鎻愪氦杩囨潵鐨刦ile鐨凪IME绫诲瀷
+		    //提交过来的file的MIME类型
 		    private String fileContentType;
 		    public File getFile() {
 				return file;
@@ -145,19 +142,17 @@ public class LoginAction extends BaseAction {
 			public void setFileContentType(String fileContentType) {
 				this.fileContentType = fileContentType;
 			}
-			//============鏂囦欢涓婁紶end=============
+		
 			
-			//-------------------------鍗庝附鍒嗗壊绾�---------------------------------------------
-
 			public String login() {
 				return "login";
 			}
-			//鐢ㄦ埛鐧婚檰
+			//用户登陆
 			public String ulogin() {
 				return "success";
 			}
 			/**
-			 * 鐢ㄦ埛棣栭〉
+			 * 用户首页
 			 * @return
 			 */
 			public String uIndex() {
@@ -168,8 +163,25 @@ public class LoginAction extends BaseAction {
 				return "success";
 			}
 			
+			//注册
+			public String res() throws UnsupportedEncodingException{
+				User user = new User();
+				if(!isEmpty(realName)){
+					String str =  URLDecoder.decode((new String(realName.getBytes("ISO8859-1"), "UTF-8")), "UTF-8");
+					user.setRealName(str);
+				}
+				user.setCreateTime(new Date());
+				user.setPassWord(pass);
+				user.setPhone(phone);
+				user.setIsDelete(0);
+				user.setUserName(name);
+				Integer id = userService.save2(user);
+				return "json";
+			}
+			
+	       //登录
 			public String toLogin(){
-				//role 1 绠＄悊鍛� 2 鏁欏笀 3瀛︾敓
+				//role 1 管理员 2 教师 3学生
 				  if(role == 1){
 					  String hql = "from Manage where name = :userName and passWord = :passWord";
 					  Map<String,Object> alias = new HashMap<String,Object>();
@@ -177,7 +189,7 @@ public class LoginAction extends BaseAction {
 					  alias.put("passWord", passWord);
 					List<Manage> manageList=manageService.getByHQL(hql, alias);
 					if(manageList.size()>0){
-						//灏嗙敤鎴蜂俊鎭斁鍏ession
+						//将用户信息放入session
 						HttpSession session = ServletActionContext.getRequest()
 								.getSession();
 						session.setAttribute("role",  manageList.get(0).getType());
@@ -197,7 +209,7 @@ public class LoginAction extends BaseAction {
     				  alias.put("passWord", passWord);
     				List<Teacher> manageList=teacherService.getByHQL(hql, alias);
     				if(manageList.size()>0){
-    					//灏嗙敤鎴蜂俊鎭斁鍏ession
+    					//将用户信息放入session
     					HttpSession session = ServletActionContext.getRequest()
     							.getSession();
     					session.setAttribute("userName", manageList.get(0).getRealName());
@@ -216,7 +228,7 @@ public class LoginAction extends BaseAction {
     				  alias.put("passWord", passWord);
     				List<User> manageList=userService.getByHQL(hql, alias);
     				if(manageList.size()>0){
-    					//灏嗙敤鎴蜂俊鎭斁鍏ession
+    					//将用户信息放入session
     					HttpSession session = ServletActionContext.getRequest()
     							.getSession();
     					session.setAttribute("userName", manageList.get(0).getRealName());
@@ -233,7 +245,7 @@ public class LoginAction extends BaseAction {
 						  
 			}
 			
-			   //閫�鍑�
+			   //退出
 				public String tuichu() {
 					ActionContext ac = ActionContext.getContext();
 					Map session = ac.getSession();
@@ -251,7 +263,7 @@ public class LoginAction extends BaseAction {
 						jsonMap.put("res", 1);
 					}else{
 						jsonMap.put("res", 2);
-						jsonMap.put("mess", "鍘熷瀵嗙爜杈撳叆閿欒");
+						jsonMap.put("mess", "原始密码输入错误");
 					}
 					return "json";
 				}

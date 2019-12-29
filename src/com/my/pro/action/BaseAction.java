@@ -17,13 +17,13 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class BaseAction extends ActionSupport {
 
-	//杩斿洖success
+	//返回success
 		public static final String SUSSESS = "SUCCSEE";
 		
-		//杩斿洖json
+		//返回json
 		public static final String JSON_TYPE = "json";
 		
-		//鎸戣浆
+		//挑转
 		public static final String RETIRCT_URL = "redirect";
 		
 		//chain
@@ -41,7 +41,7 @@ public class BaseAction extends ActionSupport {
 	//===================================================================
 		
 			/**
-			 * 鐛插彇request
+			 * 獲取request
 			 * @return
 			 */
 			public HttpServletRequest getRequest() {
@@ -51,7 +51,7 @@ public class BaseAction extends ActionSupport {
 			}
 		
 			/**
-			 * 鑾峰彇response
+			 * 获取response
 			 * @return
 			 */
 			public HttpServletResponse getResponse() {
@@ -73,7 +73,7 @@ public class BaseAction extends ActionSupport {
 			}
 			
 			/**
-			 * 瀛樺��
+			 * 存值
 			 * @return
 			 */
 			public ActionContext getActionContext(){
@@ -86,7 +86,7 @@ public class BaseAction extends ActionSupport {
 		
 			}
 			
-			//鍒ゆ柇闈炵┖
+			//判断非空
 			public  boolean isEmpty(final String str) {
 				return (null == str) || (str.trim().length() <= 0);
 			}

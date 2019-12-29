@@ -63,7 +63,7 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 	}
 
 	/**
-	 * 鐧婚檰浠ュ悗杩涘叆棣栭〉
+	 * 登陆以后进入首页
 	 * @return
 	 */
 	public String index(){
@@ -80,7 +80,7 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 	}
 	
 	/**
-	 * 璺冲埌绠＄悊鍛橀〉闈�,骞朵笖椤哄甫鏌ヨ绠＄悊鍛樺垪琛ㄥ垎椤�
+	 * 跳到管理员页面,并且顺带查询管理员列表分页
 	 * @return
 	 */
 	public String manage(){
@@ -91,14 +91,14 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 		
 	}
     /**
-     * 璺宠浆娣诲姞椤甸潰
+     * 跳转添加页面
      * @return
      */
 	public String addManage(){
 		return SUCCESS;
 	}
 	/**
-	 * 娣诲姞
+	 * 添加
 	 * @return
 	 * @throws IOException 
 	 */
@@ -142,11 +142,11 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 		Manage byId = manageService.getById(1);
 		JSONObject js = new JSONObject();
 		if(!byId.getPassWord().equals(manage.getPassWord())){
-			js.put("result", "杈撳叆鍘熷瀵嗙爜涓嶆纭�");
+			js.put("result", "输入原始密码不正确");
 		}else{
 			byId.setPassWord(new1);
 			manageService.update(byId);
-			js.put("result", "淇敼鎴愬姛");
+			js.put("result", "修改成功");
 		}
     	out = resp.getWriter();
 		 out.write(js.toString());
@@ -220,10 +220,10 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 		this.fileContentType = fileContentType;
 	}
 
-	//鎻愪氦杩囨潵鐨刦ile鐨勫悕瀛�
+	//提交过来的file的名字
     private String fileFileName;
     
-    //鎻愪氦杩囨潵鐨刦ile鐨凪IME绫诲瀷
+    //提交过来的file的MIME类型
     private String fileContentType;
 	public String getUserName() {
 		return userName;
@@ -249,16 +249,16 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 	
 	
 	/**
-	 * 鑾峰彇鐢ㄦ埛鍒楄〃
+	 * 获取用户列表
 	 * @return
 	 */
 	public String userList(){
 	Pager<User>	pagers = userService.listAll(userName);
-	//杩欓噷闇�瑕佸绛夌骇杩涜閬嶅巻
+	//这里需要对等级进行遍历
 	/*List<Grade> list = gradeService.list();
 	if(pagers != null && pagers.getDatas() != null && pagers.getDatas().size()>0){
 		for(User u : pagers.getDatas()){
-			//瀵硅繖閲岀殑浜� 杩涜閬嶅巻
+			//对这里的人 进行遍历
 			for(Grade g: list){
 				if(u.getJifen()>=g.getStartMin() && u.getJifen() <=g.getEndMax()){
 					u.setDengji(g.getName());
@@ -272,7 +272,7 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 	}
 	
 	/**
-	 * 鏍规嵁鐢ㄦ埛id鏌ヨ鎵�鏈夊浘鐗�
+	 * 根据用户id查询所有图片
 	 * @return
 	 */
 	/*public String userPhotos(){
@@ -282,7 +282,7 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 	}
 	*/
 	/**
-	 * 鍒犻櫎鐓х墖
+	 * 删除照片
 	 * @return
 	 */
 	/*public String delsay(){
@@ -290,7 +290,7 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 		ActionContext.getContext().put("url", "/manage_userPhotos.do");
 		return "redirect";
 	}*/
-	//鍒犻櫎鐢ㄦ埛
+	//删除用户
 	public String delUse(){
 		userService.delUse(userId);
 		ActionContext.getContext().put("url", "/manage_userList.do");
@@ -298,7 +298,7 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 	}
 	
 	/**
-	 * 鍥剧墖涓婁紶
+	 * 图片上传
 	 * @return
 	 * @throws Exception
 	 */
@@ -325,7 +325,7 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 		        }
 		        os.close();
 		        is.close();
-		        //鎺ヤ笅鏉ュ瓨鍒拌璇磋〃涓�
+		        //接下来存到说说表中
 		        SayMood sayMood = new SayMood();
 		        sayMood.setContent("\\upload\\"+fileFileName);
 		        sayMood.setCreateTime(new Date());
@@ -336,9 +336,9 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 		        sayMood.setSayUser(u);
 		        sayMoodService.save(sayMood);
 		        *//**
-		         * 绉垎瑙勫垯杩樻病鏈夊仛銆備笂浼犲浘鐗囬渶瑕佸姞绉垎
+		         * 积分规则还没有做。上传图片需要加积分
 		         *//*
-		        //涓婁紶瀹屾瘯锛岃烦杞垪琛╝ction
+		        //上传完毕，跳转列表action
 		        ActionContext.getContext().put("url", "/user_homePage.do");
 		        return "redirect";
 		}else{
@@ -349,16 +349,16 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 	public String report(){
 		return SUCCESS;
 	}
-	//涓嬮潰杩涜鎶ヨ〃
+	//下面进行报表
 	/**
-	 * 鏌ヨ涓婁釜鏈堝拰杩欎釜鏈� 璐﹀彿娉ㄥ唽
+	 * 查询上个月和这个月 账号注册
 	 * @throws IOException 
 	 */
 	public void reportUser() throws IOException{
 		HttpServletResponse resp = ServletActionContext.getResponse();
 		resp.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = null;
-		//棣栧厛鏌ヨ鏈湀鍜屼笂涓湀鐢ㄦ埛鎬讳汉鏁�
+		//首先查询本月和上个月用户总人数
 		List<User>	users = userService.findSYuser();
 		List<User>	users2 = userService.findBYuser();
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -380,35 +380,35 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 		list.add(map1);
 		list.add(map2);
 		
-		 //鍒涘缓Option
+		 //创建Option
 	    GsonOption option = new GsonOption();
-	    option.title("娉ㄥ唽浜烘暟").tooltip(Trigger.axis).legend("鏁伴噺锛堜汉锛�");
-	    //妯酱涓哄�艰酱
+	    option.title("注册人数").tooltip(Trigger.axis).legend("数量（人）");
+	    //横轴为值轴
 	    option.xAxis(new ValueAxis().boundaryGap(0d, 0.01));
-	    //鍒涘缓绫荤洰杞�
+	    //创建类目轴
 	    CategoryAxis category = new CategoryAxis();
-	    //鏌辩姸鏁版嵁
-	    Bar bar = new Bar("鏈堜唤");
-	    //楗煎浘鏁版嵁
-	    Pie pie = new Pie("鏈堜唤");
-	    //寰幆鏁版嵁
+	    //柱状数据
+	    Bar bar = new Bar("月份");
+	    //饼图数据
+	    Pie pie = new Pie("月份");
+	    //循环数据
 	    for (Map<String, Object> objectMap : list) {
-	        //璁剧疆绫荤洰
+	        //设置类目
 	        category.data(objectMap.get("NAME"));
-	        //绫荤洰瀵瑰簲鐨勬煴鐘跺浘
+	        //类目对应的柱状图
 	        bar.data(objectMap.get("TOTAL"));
-	        //楗煎浘鏁版嵁
+	        //饼图数据
 	        pie.data(new PieData(objectMap.get("NAME").toString(), objectMap.get("TOTAL")));
 	    }
-	    //璁剧疆绫荤洰杞�
+	    //设置类目轴
 	    option.yAxis(category);
-	    //楗煎浘鐨勫渾蹇冨拰鍗婂緞
+	    //饼图的圆心和半径
 	    pie.center(900,380).radius(100);
-	    //璁剧疆鏁版嵁
+	    //设置数据
 	    option.series(bar, pie);
-	    //鐢变簬鑽搧鍚嶅瓧杩囬暱锛屽浘琛ㄨ窛绂诲乏渚ц窛绂昏缃�180锛屽叧浜巊rid鍙互鐪婨Charts鐨勫畼鏂规枃妗�
+	    //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
 	    option.grid().x(180);
-	    //杩斿洖Option
+	    //返回Option
 	    out = resp.getWriter();
 		 out.write(option.toString());
 	}
@@ -437,7 +437,7 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 		  HttpServletResponse resp = ServletActionContext.getResponse();
 			resp.setContentType("application/json;charset=UTF-8");
 			PrintWriter out = null;
-			//棣栧厛鏌ヨ鏈湀鍜屼笂涓湀鐢ㄦ埛鎬讳汉鏁�
+			//首先查询本月和上个月用户总人数
 			List<SayMood>	users = sayMoodService.findSYusay();
 			List<SayMood>	users2 = sayMoodService.findBYsay();
 			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
@@ -459,35 +459,35 @@ public class ManageAction extends BaseAction implements ModelDriven<Manage>{
 			list.add(map1);
 			list.add(map2);
 			
-			 //鍒涘缓Option
+			 //创建Option
 		    GsonOption option = new GsonOption();
-		    option.title("鍙戣〃鍥剧墖鏁�").tooltip(Trigger.axis).legend("鏁伴噺锛堜汉锛�");
-		    //妯酱涓哄�艰酱
+		    option.title("发表图片数").tooltip(Trigger.axis).legend("数量（人）");
+		    //横轴为值轴
 		    option.xAxis(new ValueAxis().boundaryGap(0d, 0.01));
-		    //鍒涘缓绫荤洰杞�
+		    //创建类目轴
 		    CategoryAxis category = new CategoryAxis();
-		    //鏌辩姸鏁版嵁
-		    Bar bar = new Bar("鏈堜唤");
-		    //楗煎浘鏁版嵁
-		    Pie pie = new Pie("鏈堜唤");
-		    //寰幆鏁版嵁
+		    //柱状数据
+		    Bar bar = new Bar("月份");
+		    //饼图数据
+		    Pie pie = new Pie("月份");
+		    //循环数据
 		    for (Map<String, Object> objectMap : list) {
-		        //璁剧疆绫荤洰
+		        //设置类目
 		        category.data(objectMap.get("NAME"));
-		        //绫荤洰瀵瑰簲鐨勬煴鐘跺浘
+		        //类目对应的柱状图
 		        bar.data(objectMap.get("TOTAL"));
-		        //楗煎浘鏁版嵁
+		        //饼图数据
 		        pie.data(new PieData(objectMap.get("NAME").toString(), objectMap.get("TOTAL")));
 		    }
-		    //璁剧疆绫荤洰杞�
+		    //设置类目轴
 		    option.yAxis(category);
-		    //楗煎浘鐨勫渾蹇冨拰鍗婂緞
+		    //饼图的圆心和半径
 		    pie.center(900,380).radius(100);
-		    //璁剧疆鏁版嵁
+		    //设置数据
 		    option.series(bar, pie);
-		    //鐢变簬鑽搧鍚嶅瓧杩囬暱锛屽浘琛ㄨ窛绂诲乏渚ц窛绂昏缃�180锛屽叧浜巊rid鍙互鐪婨Charts鐨勫畼鏂规枃妗�
+		    //由于药品名字过长，图表距离左侧距离设置180，关于grid可以看ECharts的官方文档
 		    option.grid().x(180);
-		    //杩斿洖Option
+		    //返回Option
 		    out = resp.getWriter();
 			 out.write(option.toString());
 	  */}

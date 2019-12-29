@@ -9,20 +9,19 @@ import javax.persistence.Table;
 
 /**
  * 班级
- * 
- * @author
+ * @author 
  *
  */
 @Entity
-@Table(name = "class_room")
+@Table(name="class_room")
 public class ClassRoom {
 
-	private Integer id;
-
+    private Integer id;
+	
 	private String name;
-
-	private Zy zy;// 专业
-
+	
+	private Zy zy;//专业
+	
 	private Integer isDelete;
 
 	@Id
@@ -43,8 +42,9 @@ public class ClassRoom {
 		this.name = name;
 	}
 
+	
 	@ManyToOne
-	@JoinColumn(name = "zy_id")
+	@JoinColumn(name="zy_id")
 	public Zy getZy() {
 		return zy;
 	}
@@ -60,5 +60,6 @@ public class ClassRoom {
 	public void setIsDelete(Integer isDelete) {
 		this.isDelete = isDelete;
 	}
-
+	
+	
 }

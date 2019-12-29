@@ -9,15 +9,16 @@ import javax.persistence.Table;
  * 学院
  */
 @Entity
-@Table(name = "xy")
+@Table(name="xy")
 public class Xy {
-
+	
 	private Integer id;
-
+	
 	private String name;
-
+	
 	private Integer isDelete;
 
+	
 	@Id
 	@GeneratedValue
 	public Integer getId() {

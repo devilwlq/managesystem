@@ -7,18 +7,17 @@ import javax.persistence.Table;
 
 /**
  * 学科
- * 
- * @author
+ * @author 
  *
  */
 @Entity
-@Table(name = "xk")
+@Table(name="xk")
 public class Xk {
-
-	private Integer id;
-
+	
+    private Integer id;
+	
 	private String name;
-
+	
 	private Integer isDelete;
 
 	@Id
@@ -45,6 +44,7 @@ public class Xk {
 
 	public void setIsDelete(Integer isDelete) {
 		this.isDelete = isDelete;
-	}
+	} 
 
+	
 }

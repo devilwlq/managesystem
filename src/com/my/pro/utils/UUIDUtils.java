@@ -1,5 +1,8 @@
 package com.my.pro.utils;
 
+
+
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
@@ -9,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Helper for creating random and Type 1 (time-based) UUIDs.
  *
- * @author xuan.chen
+ * @author 
  */
 public class UUIDUtils {
 
@@ -21,8 +24,8 @@ public class UUIDUtils {
 
 	static {
 		try {
-			IS_THREADLOCALRANDOM_AVAILABLE = null != UUIDUtils.class.getClassLoader()
-					.loadClass("java.util.concurrent.ThreadLocalRandom");
+			IS_THREADLOCALRANDOM_AVAILABLE = null != UUIDUtils.class.getClassLoader().loadClass(
+					"java.util.concurrent.ThreadLocalRandom");
 		} catch (ClassNotFoundException e) {
 		}
 

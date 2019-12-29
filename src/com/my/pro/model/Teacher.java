@@ -9,23 +9,22 @@ import javax.persistence.Table;
 
 /**
  * 教师
- * 
- * @author
+ * @author 
  *
  */
 @Entity
-@Table(name = "teacher")
+@Table(name="teacher")
 public class Teacher {
 
-	private Integer id;
-
-	private String userName;// 登陆
-	private String passWord;// 密码
-	private String phone;// 手机
-	private String realName;// 真实
-
+    private Integer id;
+	
+    private String userName;//登陆
+	private String passWord;//密码
+	private String phone;//手机
+	private String realName;//真实
+	
 	private Integer sex;
-
+	
 	public Integer getSex() {
 		return sex;
 	}
@@ -34,8 +33,8 @@ public class Teacher {
 		this.sex = sex;
 	}
 
-	private Xy xy;// 学院
-
+	private Xy xy;//学院
+	
 	private Integer isDelete;
 
 	@Id
@@ -81,7 +80,7 @@ public class Teacher {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "xy_id")
+	@JoinColumn(name="xy_id")
 	public Xy getXy() {
 		return xy;
 	}
@@ -97,5 +96,6 @@ public class Teacher {
 	public void setIsDelete(Integer isDelete) {
 		this.isDelete = isDelete;
 	}
-
+	
+	
 }

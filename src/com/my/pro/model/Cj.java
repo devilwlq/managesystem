@@ -10,91 +10,91 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * 
- * 
- * @author
+ * 成绩
+ * @author 
  *
  */
 @Entity
-@Table(name = "cj")
+@Table(name="cj")
 public class Cj {
+	
+	    private Integer id;
+		
+		private Integer isDelete; 
+		
+		private Date createTime;
+		
+		private Teacher teacher;
+		
+		private Xk xk;//学科
+		
+		private User user;
+		
+		private String df;
 
-	private Integer id;
+		public String getDf() {
+			return df;
+		}
 
-	private Integer isDelete;
+		public void setDf(String df) {
+			this.df = df;
+		}
 
-	private Date createTime;
+		@Id
+		@GeneratedValue
+		public Integer getId() {
+			return id;
+		}
 
-	private Teacher teacher;
+		public void setId(Integer id) {
+			this.id = id;
+		}
 
-	private Xk xk;// ��
+		public Integer getIsDelete() {
+			return isDelete;
+		}
 
-	private User user;
+		public void setIsDelete(Integer isDelete) {
+			this.isDelete = isDelete;
+		}
 
-	private String df;
+		public Date getCreateTime() {
+			return createTime;
+		}
 
-	public String getDf() {
-		return df;
-	}
+		public void setCreateTime(Date createTime) {
+			this.createTime = createTime;
+		}
 
-	public void setDf(String df) {
-		this.df = df;
-	}
+		@ManyToOne
+		@JoinColumn(name="teacher_id")
+		public Teacher getTeacher() {
+			return teacher;
+		}
 
-	@Id
-	@GeneratedValue
-	public Integer getId() {
-		return id;
-	}
+		public void setTeacher(Teacher teacher) {
+			this.teacher = teacher;
+		}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+		@ManyToOne
+		@JoinColumn(name="xk_id")
+		public Xk getXk() {
+			return xk;
+		}
 
-	public Integer getIsDelete() {
-		return isDelete;
-	}
+		public void setXk(Xk xk) {
+			this.xk = xk;
+		}
 
-	public void setIsDelete(Integer isDelete) {
-		this.isDelete = isDelete;
-	}
+		@ManyToOne
+		@JoinColumn(name="user_id")
+		public User getUser() {
+			return user;
+		}
 
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	@ManyToOne
-	@JoinColumn(name = "teacher_id")
-	public Teacher getTeacher() {
-		return teacher;
-	}
-
-	public void setTeacher(Teacher teacher) {
-		this.teacher = teacher;
-	}
-
-	@ManyToOne
-	@JoinColumn(name = "xk_id")
-	public Xk getXk() {
-		return xk;
-	}
-
-	public void setXk(Xk xk) {
-		this.xk = xk;
-	}
-
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
+		public void setUser(User user) {
+			this.user = user;
+		}
+		
+		
 }

@@ -54,20 +54,25 @@ public class TeacherAction extends BaseAction implements ModelDriven<Teacher>{
 	@Autowired
 	private TeacherService teacherService;
 	
-	// dao/service/===
+	//依赖注入 end  dao/service/===
 	
+	//-------------------------华丽分割线---------------------------------------------
+	
+	//============自定义参数start=============
+	
+	//============自定义参数end=============
 
 	
-	//-------------------------------------------------------------------
+	//-------------------------华丽分割线---------------------------------------------
 	
-	//============start=======================================================
+	//============文件上传start=======================================================
 	@Autowired
 	private XyService xyService;
 	
 	private File file;
-	
+	//提交过来的file的名字
     private String fileFileName;
-   
+    //提交过来的file的MIME类型
     private String fileContentType;
     public File getFile() {
 		return file;
@@ -87,18 +92,18 @@ public class TeacherAction extends BaseAction implements ModelDriven<Teacher>{
 	public void setFileContentType(String fileContentType) {
 		this.fileContentType = fileContentType;
 	}
-	 //============end=========================================================
+	 //============文件上传end=========================================================
 	public String jsonAction() {
-		  // dataMap
+		  // dataMap中的数据将会被Struts2转换成JSON字符串，所以这里要先清空其中的数据
 		  jsonMap.clear();
 		  jsonMap.put("success", true);
 		  return JSON_TYPE;
 	}
-	 //----------------------------------------------------------------------//
+	 //-------------------------华丽分割线---------------------------------------------//
 	
-	 //======================start============//
+	 //=============公=======共=======方=======法==========区=========start============//
 	/**
-	 * 
+	 * 列表分页查询
 	 */
 	public String teacher(){
 	    Map<String,Object> alias = new HashMap<String,Object>();
@@ -116,7 +121,7 @@ public class TeacherAction extends BaseAction implements ModelDriven<Teacher>{
     }
 	
 	/**
-	 * 
+	 * 跳转到添加页面
 	 * @return
 	 */
 	public String add(){
@@ -126,7 +131,7 @@ public class TeacherAction extends BaseAction implements ModelDriven<Teacher>{
 	}
 	
 	/**
-	 * 
+	 * 执行添加
 	 * @return
 	 */
 	public String exAdd(){
@@ -137,7 +142,7 @@ public class TeacherAction extends BaseAction implements ModelDriven<Teacher>{
 	}
 	
 	/**
-	 * 
+	 * 查看详情页面
 	 * @return
 	 */
 	public String view(){
@@ -147,7 +152,7 @@ public class TeacherAction extends BaseAction implements ModelDriven<Teacher>{
 	}
 	
 	/**
-	 * 
+	 * 跳转修改页面
 	 * @return
 	 */
 	public String update(){
@@ -159,7 +164,7 @@ public class TeacherAction extends BaseAction implements ModelDriven<Teacher>{
 	}
     
 	/**
-	 * 
+	 * 执行修改
 	 * @return
 	 */
 	public String exUpdate(){
@@ -177,7 +182,7 @@ public class TeacherAction extends BaseAction implements ModelDriven<Teacher>{
 	
 	
 	/**
-	 * 
+	 * 删除
 	 * @return
 	 */
 	public String delete(){
@@ -188,6 +193,17 @@ public class TeacherAction extends BaseAction implements ModelDriven<Teacher>{
 		return "redirect";
 	}
 	
-
+	//=============公=======共=======方=======法==========区=========end============//
+	
+	 //-------------------------华丽分割线---------------------------------------------//
+	
+	 //=============自=======定=======义=========方=======法==========区=========start============//
+	
+	
+	
+	
+	//=============自=======定=======义=========方=======法==========区=========end============//
+		
+	
 	
 }

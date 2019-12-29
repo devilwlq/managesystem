@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+
 import net.sf.ezmorph.MorphException;
 import net.sf.ezmorph.MorpherRegistry;
 import net.sf.ezmorph.object.AbstractObjectMorpher;
@@ -16,48 +17,51 @@ import net.sf.json.util.JSONUtils;
 
 public class JsonUtil {
 
-	private static final String[] DATE_FORMAT = { "yyyy-MM-dd HH:mm:ss" };
-
-	public static String toJson(Object o) {
-
-		JsonConfig jsonConfig = new JsonConfig();
+	private static final String[] DATE_FORMAT = { "yyyy-MM-dd HH:mm:ss" }; 
+	
+    public static String toJson(Object o) {
+    	
+    	JsonConfig jsonConfig = new JsonConfig();  
 		jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
 		jsonConfig.registerJsonValueProcessor(java.sql.Timestamp.class, new DateJsonValueProcessor());
-		System.out.println(JSONObject.fromObject(o));
+    	System.out.println(JSONObject.fromObject(o));
 		System.out.println(JSONObject.fromObject(o, jsonConfig).toString());
-		try {
+    	try {
 			return JSONObject.fromObject(o, jsonConfig).toString();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	/***
-	 * 
-	 * @Title: toJsonArray @Description:把一个List转换为json字符串 @param @param
-	 * o @param @return 设定文件 @return String 返回类型 @Author @throws
-	 */
-	public static String toJsonArray(Object o) {
-
-		JsonConfig jsonConfig = new JsonConfig();
+    }
+    /***
+     * 
+    * @Title: toJsonArray 
+    * @Description:把一个List转换为json字符串
+    * @param @param o
+    * @param @return    设定文件 
+    * @return String    返回类型 
+    * @Author 
+    * @throws
+     */
+    public static String toJsonArray(Object o) {
+    	
+    	JsonConfig jsonConfig = new JsonConfig();  
 		jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
 		jsonConfig.registerJsonValueProcessor(java.sql.Timestamp.class, new DateJsonValueProcessor());
-
-		try {
+    	
+    	try {
 			return JSONArray.fromObject(o, jsonConfig).toString();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
+    }
 	@SuppressWarnings("unchecked")
 	public static <T> T toBean(String jsonStr, Class<T> clazz) {
 		T returnValue = null;
-
+		
 		MorpherRegistry morpherRegistry = JSONUtils.getMorpherRegistry();
 		morpherRegistry.registerMorpher(new DateMorpher(DATE_FORMAT));
-		morpherRegistry.registerMorpher(new TimestampMorpher(DATE_FORMAT));
-
+		morpherRegistry.registerMorpher(new TimestampMorpher(DATE_FORMAT)); 
+		
 		try {
 			JSONObject obj = JSONObject.fromObject(jsonStr);
 			returnValue = (T) JSONObject.toBean(obj, clazz);
@@ -66,61 +70,62 @@ public class JsonUtil {
 		}
 		return returnValue;
 	}
-
-	// private static ObjectMapper objectMapper = null;
-	//
-	// static {
-	// objectMapper = new ObjectMapper(); // can reuse, share globally
-	// objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-	// objectMapper.setSerializationInclusion(Include.NON_NULL);
-	// objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-	// }
-	//
-	// public static ObjectMapper getObjectMapper() {
-	// return objectMapper;
-	// }
-	//
-	// public static String toJson2(Object o) {
-	// try {
-	// return objectMapper.writeValueAsString(o);
-	// } catch (IOException e) {
-	// throw new RuntimeException(e);
-	// }
-	// }
-	//
-	// public static <T> T toBean2(String jsonStr, Class<T> clazz) {
-	// T returnValue = null;
-	// try {
-	// returnValue = objectMapper.readValue(jsonStr, clazz);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// return returnValue;
-	// }
-	//
-	public static void main(String[] args) throws IOException {
-		// Map map = new HashMap();
-		// map.put("total", 0);
-		// map.put("rows", new Object[0]);
-		// map.put("sessionStatus", 0);
-		//
-		// System.out.println(toJson(map));
-	}
+	
+	
+//	private static ObjectMapper objectMapper = null;
+//    
+//    static {
+//    	objectMapper = new ObjectMapper(); // can reuse, share globally
+//		objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+//		objectMapper.setSerializationInclusion(Include.NON_NULL);
+//		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+//    }
+//    
+//    public static ObjectMapper getObjectMapper() {
+//    	return objectMapper;
+//    }
+//
+//    public static String toJson2(Object o) {
+//    	try {
+//			return objectMapper.writeValueAsString(o);
+//		} catch (IOException e) {
+//			throw new RuntimeException(e);
+//		}
+//    }
+//    
+//    public static <T> T toBean2(String jsonStr, Class<T> clazz) {
+//    	T returnValue = null;
+//    	try {
+//    		returnValue = objectMapper.readValue(jsonStr, clazz);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return returnValue;
+//    }
+//    
+    public static void main(String[] args) throws IOException {
+//    	Map map = new HashMap();
+//    	map.put("total", 0);
+//    	map.put("rows", new Object[0]);
+//    	map.put("sessionStatus", 0);
+//    	
+//    	System.out.println(toJson(map));
+    }
 }
 
 class DateJsonValueProcessor implements net.sf.json.processors.JsonValueProcessor {
 	public Object processArrayValue(Object object, JsonConfig jsonConfig) {
 		return null;
 	}
-
 	public Object processObjectValue(String string, Object object, JsonConfig jsonConfig) {
 		if (null == object) {
 			return "";
 		} else {
 			if (object instanceof java.sql.Timestamp) {
-				return DateUtils.format((java.util.Date) object);
-			} else if (object instanceof java.util.Date) {
-				return DateUtils.format((java.util.Date) object);
+				return DateUtils.format((java.util.Date)object);
+			}
+			else if (object instanceof java.util.Date) {
+				return DateUtils.format((java.util.Date)object);
 			}
 		}
 
@@ -159,7 +164,7 @@ class TimestampMorpher extends AbstractObjectMorpher {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-
+			
 		}
 		return null;
 	}

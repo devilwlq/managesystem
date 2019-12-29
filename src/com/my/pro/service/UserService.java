@@ -5,6 +5,7 @@ import java.util.List;
 import com.my.pro.model.User;
 import com.my.pro.utils.Pager;
 
+
 public interface UserService extends BaseService<User> {
 	public List<User> listAllCanSendUser(int userId);
 

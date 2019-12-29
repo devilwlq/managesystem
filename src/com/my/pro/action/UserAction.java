@@ -37,7 +37,7 @@ import com.my.pro.service.*;
  * @ClassName:  
  * @Description: 
  * @author administrator
- * @date 2015骞�12鏈�24鏃� 涓嬪崍1:46:33 - 2017骞�04鏈�14鏃� 21鏃�44鍒�17绉�
+ * @date 2015年12月24日 下午1:46:33 - 2017年04月14日 21时44分17秒
  */
 
 @Controller("userAction")
@@ -57,19 +57,31 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 		}
 		//==========model==============
 	/**
-	 * 渚濊禆娉ㄥ叆 start dao/service/===
+	 * 依赖注入 start dao/service/===
 	 */
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private ClassRoomService classRoomService;
 	
+	//依赖注入 end  dao/service/===
+	
+	//-------------------------华丽分割线---------------------------------------------
+	
+	//============自定义参数start=============
+	
+	//============自定义参数end=============
 
 	
-	private File file;
+	//-------------------------华丽分割线---------------------------------------------
 	
+	//============文件上传start=======================================================
+	
+	
+	private File file;
+	//提交过来的file的名字
     private String fileFileName;
-   
+    //提交过来的file的MIME类型
     private String fileContentType;
     public File getFile() {
 		return file;
@@ -89,19 +101,21 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 	public void setFileContentType(String fileContentType) {
 		this.fileContentType = fileContentType;
 	}
-	 //============end=========================================================
+	 //============文件上传end=========================================================
 	public String jsonAction() {
-		 
+		  // dataMap中的数据将会被Struts2转换成JSON字符串，所以这里要先清空其中的数据
 		  jsonMap.clear();
 		  jsonMap.put("success", true);
 		  return JSON_TYPE;
 	}
+	 //-------------------------华丽分割线---------------------------------------------//
 	
+	 //=============公=======共=======方=======法==========区=========start============//
 	/**
-	 * 鍒楄〃鍒嗛〉鏌ヨprivate String userName;//鐧婚檰
-	private String passWord;//瀵嗙爜
-	private String phone;//鎵嬫満
-	private String realName;//鐪熷疄
+	 * 列表分页查询private String userName;//登陆
+	private String passWord;//密码
+	private String phone;//手机
+	private String realName;//真实
 	private Date createTime;
 	 */
 	public String user(){
@@ -134,7 +148,7 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 		return SUCCESS;
     }
 	/**
-	 * 
+	 * 跳转到添加页面
 	 * @return
 	 */
 	public String add(){
@@ -144,7 +158,7 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 	}
 	
 	/**
-	 * 
+	 * 执行添加
 	 * @return
 	 */
 	public String exAdd(){
@@ -155,7 +169,7 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 	}
 	
 	/**
-	 * 
+	 * 查看详情页面
 	 * @return
 	 */
 	public String view(){
@@ -173,7 +187,7 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 	}
 	
 	/**
-	 * 
+	 * 跳转修改页面
 	 * @return
 	 */
 	public String update(){
@@ -187,7 +201,7 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 		return SUCCESS;
 	}
 	/**
-	 * 
+	 * 执行修改
 	 * @return
 	 */
 	public String exUpdate(){
@@ -213,29 +227,29 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 			}
 			sb = sb.append("order by id desc");
 			List<User> list = userService.listByAlias(sb.toString(),alias);
-	        // 鐢熸垚Workbook
+	        // 生成Workbook
 	        HSSFWorkbook wb = new HSSFWorkbook();
-	        // 杩藉姞Sheet
+	        // 追加Sheet
 	        Sheet sheet = wb.createSheet("Sheet");
-	        // 鎬诲垪鏁�
+	        // 总列数
 	        Integer CountColumnNum = 7;
 	        Cell[] firstCell = new Cell[CountColumnNum];
 	        String[] firstCellNames = new String[CountColumnNum];
-	     /*   <th width="">瀛﹀彿</th>
-	        <th>鐪熷疄鍚�</th>
-	        <th>鎬у埆</th>
-	        <th>鎵�灞炲闄�</th>
-	        <th>鎵�灞炰笓涓�</th>
-	        <th>鎵�灞炵彮绾�</th>
-	        <th>鑱旂郴鐢佃瘽</th>*/
-	        firstCellNames[0] = "瀛﹀彿";
-	        firstCellNames[1] = "鐪熷疄鍚嶇О";
-	        firstCellNames[2] = "鎬у埆";
-	        firstCellNames[3] = "鎵�灞炲闄�";
-	        firstCellNames[4] = "鎵�灞炰笓涓�";
-	        firstCellNames[5] = "鎵�灞炵彮绾�";
-	        firstCellNames[6] = "鑱旂郴鐢佃瘽";
-	        // 鎻掑叆琛�
+	     /*   <th width="">学号</th>
+	        <th>真实名</th>
+	        <th>性别</th>
+	        <th>所属学院</th>
+	        <th>所属专业</th>
+	        <th>所属班级</th>
+	        <th>联系电话</th>*/
+	        firstCellNames[0] = "学号";
+	        firstCellNames[1] = "真实名称";
+	        firstCellNames[2] = "性别";
+	        firstCellNames[3] = "所属学院";
+	        firstCellNames[4] = "所属专业";
+	        firstCellNames[5] = "所属班级";
+	        firstCellNames[6] = "联系电话";
+	        // 插入行
 	        Row firstRow = sheet.createRow(0);
 	        for (int j = 0; j < CountColumnNum; j++) {
 	            firstCell[j] = firstRow.createCell(j);
@@ -243,7 +257,7 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 	        }
 	        BigDecimal bd;
 	        for (int i = 0; i < list.size(); i++) {
-	            // 鍒涘缓涓�琛�
+	            // 创建一行
 	            Row row = sheet.createRow(i + 1);
 	            Cell id = row.createCell(0);
 	            id.setCellValue(list.get(i).getUserName().toString());
@@ -254,9 +268,9 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 	            
 	            Cell xh = row.createCell(2);
 	            if(list.get(i).getSex() == 1){
-	            	xh.setCellValue("鐢�");
+	            	xh.setCellValue("男");
 	            }else{
-	            	xh.setCellValue("濂�");
+	            	xh.setCellValue("女");
 	            }
 	            Cell gh = row.createCell(3);
 	            gh.setCellValue(list.get(i).getClassroom().getZy().getXy().getName().toString());
@@ -269,7 +283,7 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 	            gh5.setCellValue(list.get(i).getPhone().toString());
 	            
 	        }
-	        // 鍒涘缓鏂囦欢杈撳嚭娴侊紝鍑嗗杈撳嚭鐢靛瓙琛ㄦ牸
+	        // 创建文件输出流，准备输出电子表格
 	        HttpServletResponse response = ServletActionContext.getResponse();
 	        response.setContentType("application/vnd.ms-excel");//response.setContentType("application/vnd.ms-excel");
 	        response.setHeader("Content-disposition", "attachment;filename=export.xls");
@@ -279,7 +293,7 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 	        out.close();
 	    }
 	/**
-	 * 鍒犻櫎
+	 * 删除
 	 * @return
 	 */
 	public String delete(){
@@ -290,16 +304,16 @@ public class UserAction extends BaseAction implements ModelDriven<User>{
 		return "redirect";
 	}
 	
-	//=============鍏�=======鍏�=======鏂�=======娉�==========鍖�=========end============//
+	//=============公=======共=======方=======法==========区=========end============//
 	
-	 //-------------------------鍗庝附鍒嗗壊绾�---------------------------------------------//
+	 //-------------------------华丽分割线---------------------------------------------//
 	
-	 //=============鑷�=======瀹�=======涔�=========鏂�=======娉�==========鍖�=========start============//
-	
-	
+	 //=============自=======定=======义=========方=======法==========区=========start============//
 	
 	
-	//=============鑷�=======瀹�=======涔�=========鏂�=======娉�==========鍖�=========end============//
+	
+	
+	//=============自=======定=======义=========方=======法==========区=========end============//
 		
 	
 	

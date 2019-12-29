@@ -50,14 +50,25 @@ public class CjAction extends BaseAction implements ModelDriven<Cj>{
 		}
 		//==========model==============
 	/**
-	 *  start dao/service/===
+	 * 依赖注入 start dao/service/===
 	 */
 	@Autowired
 	private CjService cjService;
 	
 	@Autowired
 	private XkService xkService;
+	//依赖注入 end  dao/service/===
+	
+	//-------------------------华丽分割线---------------------------------------------
+	
+	//============自定义参数start=============
+	
+	//============自定义参数end=============
 
+	
+	//-------------------------华丽分割线---------------------------------------------
+	
+	//============文件上传start=======================================================
 	@Autowired
 	private UserService userService;
 	private String code;
@@ -68,9 +79,9 @@ public class CjAction extends BaseAction implements ModelDriven<Cj>{
 		this.code = code;
 	}
 	private File file;
-	
+	//提交过来的file的名字
     private String fileFileName;
-   
+    //提交过来的file的MIME类型
     private String fileContentType;
     public File getFile() {
 		return file;
@@ -90,18 +101,17 @@ public class CjAction extends BaseAction implements ModelDriven<Cj>{
 	public void setFileContentType(String fileContentType) {
 		this.fileContentType = fileContentType;
 	}
-	 //============end=========================================================
+	 //============文件上传end=========================================================
 	public String jsonAction() {
-		  
+		  // dataMap中的数据将会被Struts2转换成JSON字符串，所以这里要先清空其中的数据
 		  jsonMap.clear();
 		  jsonMap.put("success", true);
 		  return JSON_TYPE;
 	}
-	 //----------------------------------------------------------------------//
 	
-	 //======================start============//
+
 	/**
-	 * 
+	 * 列表分页查询
 	 */
 	public String cj(){
 	    Map<String,Object> alias = new HashMap<String,Object>();
@@ -130,7 +140,7 @@ public class CjAction extends BaseAction implements ModelDriven<Cj>{
 		return SUCCESS;
     }
 	/**
-	 * 
+	 * 跳转到添加页面
 	 * @return
 	 */
 	public String add(){
@@ -140,7 +150,7 @@ public class CjAction extends BaseAction implements ModelDriven<Cj>{
 	}
 	
 	/**
-	 * 
+	 * 执行添加
 	 * @return
 	 */
 	public String exAdd(){
@@ -163,7 +173,7 @@ public class CjAction extends BaseAction implements ModelDriven<Cj>{
 	}
 	
 	/**
-	 * 
+	 * 查看详情页面
 	 * @return
 	 */
 	public String view(){
@@ -173,7 +183,7 @@ public class CjAction extends BaseAction implements ModelDriven<Cj>{
 	}
 	
 	/**
-	 *
+	 * 跳转修改页面
 	 * @return
 	 */
 	public String update(){
@@ -185,7 +195,7 @@ public class CjAction extends BaseAction implements ModelDriven<Cj>{
 	}
     
 	/**
-	 * 
+	 * 执行修改
 	 * @return
 	 */
 	public String exUpdate(){
@@ -199,7 +209,7 @@ public class CjAction extends BaseAction implements ModelDriven<Cj>{
 	
 	
 	/**
-	 * 
+	 * 删除
 	 * @return
 	 */
 	public String delete(){
@@ -208,17 +218,7 @@ public class CjAction extends BaseAction implements ModelDriven<Cj>{
 		return "redirect";
 	}
 	
-	//=====================end============//
 	
-	 //---------------------------------------//
-	
-	 //======================start============//
-	
-	
-	
-	
-	//======================end============//
-		
 	
 	
 }
